@@ -41,6 +41,7 @@
         border-radius: 25px;
         cursor: pointer;
         font-size: 16px;
+        width: 100%;
       }
       button:hover {
         background-color: #c2185b;
@@ -55,6 +56,16 @@
       .checkbox-label {
         display: block;
         margin-bottom: 10px;
+      }
+      .hidden {
+        display: none;
+      }
+      .thank-you {
+        padding: 20px;
+        background: #fff;
+        border: 2px solid #e91e63;
+        border-radius: 8px;
+        text-align: center;
       }
     </style>
   </head>
@@ -85,33 +96,35 @@
       </li>
     </ol>
 
-    <form action="https://formsubmit.co/837011d3e6c419f90c8e6b67ac834e75" method="POST">
-      <input type="text" name="name" placeholder="Введите ваше имя и фамилию" required />
-      <input type="email" name="email" placeholder="Введите ваш эл. адрес" required />
-      <input type="tel" name="phone" placeholder="Введите ваш телефон" />
+    <div id="form-container">
+      <form id="contactForm">
+        <input type="text" name="name" placeholder="Введите ваше имя и фамилию" required />
+        <input type="email" name="email" placeholder="Введите ваш эл. адрес" required />
+        <input type="tel" name="phone" placeholder="Введите ваш телефон" />
 
-      <label class="checkbox-label">
-        <input type="checkbox" name="personal_data" required />
-        Я даю согласие на сбор, обработку и хранение всех моих персональных данных в соответствии с
-        <a href="#">ПОЛОЖЕНИЕМ ОБ ОБРАБОТКЕ ПЕРСОНАЛЬНЫХ ДАННЫХ</a>
-      </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="personal_data" required />
+          Я даю согласие на сбор, обработку и хранение всех моих персональных данных в соответствии с
+          <a href="#">ПОЛОЖЕНИЕМ ОБ ОБРАБОТКЕ ПЕРСОНАЛЬНЫХ ДАННЫХ</a>
+        </label>
 
-      <label class="checkbox-label">
-        <input type="checkbox" name="offer_agree" required />
-        Согласен(-на) с условиями
-        <a href="#">Публичного договора-оферты</a>
-      </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="offer_agree" required />
+          Согласен(-на) с условиями
+          <a href="#">Публичного договора-оферты</a>
+        </label>
 
-      <label class="checkbox-label">
-        <input type="checkbox" name="marketing_agree" />
-        Даю согласие на получение информационных и маркетинговых рассылок
-      </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="marketing_agree" />
+          Даю согласие на получение информационных и маркетинговых рассылок
+        </label>
 
-      <input type="text" name="social_nick" placeholder="Напишите ваш ник в запрещенной сети через @" required />
-      <input type="text" name="telegram" placeholder="Ваш ваш ник в телеграм" required />
+        <input type="text" name="social_nick" placeholder="Напишите ваш ник в запрещенной сети через @" required />
+        <input type="text" name="telegram" placeholder="Ваш ваш ник в телеграм" required />
 
-      <button type="submit">Отправить анкету</button>
-    </form>
+        <button type="submit">Отправить анкету</button>
+      </form>
+    </div>
 
     <div id="thankYou" class="hidden thank-you">
       <h2>Спасибо за отправку!</h2>
@@ -126,7 +139,7 @@
       form.addEventListener('submit', function (e) {
         e.preventDefault()
 
-        // Проверяем обязательные чекбоксы
+        // Проверим обязательные чекбоксы
         const checkboxes = form.querySelectorAll('input[type="checkbox"][required]')
         let allChecked = true
         checkboxes.forEach((cb) => {
@@ -138,9 +151,10 @@
           return
         }
 
+        // Отправим форму через fetch
         const formData = new FormData(form)
 
-        fetch('https://formsubmit.co/ajax/your@email.com', {
+        fetch('https://formsubmit.co/ajax/837011d3e6c419f90c8e6b67ac834e75', {
           method: 'POST',
           headers: { Accept: 'application/json' },
           body: formData,
