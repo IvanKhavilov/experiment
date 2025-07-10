@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Анкета</title>
+    <style>
+      body {
+        background-color: #fce4ec;
+        font-family: Arial, sans-serif;
+        color: #333;
+        padding: 20px;
+        max-width: 800px;
+        margin: auto;
+      }
+      h1,
+      h2 {
+        color: #d81b60;
+      }
+      p {
+        margin-bottom: 15px;
+        line-height: 1.6;
+      }
+      input[type='text'],
+      input[type='email'],
+      input[type='tel'] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      input[type='checkbox'] {
+        margin-right: 8px;
+      }
+      button {
+        background-color: #e91e63;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #c2185b;
+      }
+      a {
+        color: #d81b60;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .checkbox-label {
+        display: block;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Привет, коллега!</p>
+    <p>
+      👋 Только участники этого списка получат эксклюзивную возможность приобрести программу Рекрутинг в системе по самой
+      выгодной, стартовой цене. После старта продаж цена станет выше.
+    </p>
+    <p>
+      💡 Поэтому не пропустите сообщение от автора программы Евгении Кузнецовой или ее команды
+      <em>Количество мест в лист предзаказов ограничено!</em>
+    </p>
+
+    <p>Оставьте свои данные, только если:</p>
+    <ol>
+      <li>
+        Вы реально хотите закрывать вакансии в 2-4 раза быстрее и главное,
+        <strong>реализоваться в профессии горизонтально или построить карьеру в найме/на фрилансе</strong>
+        .
+      </li>
+      <li>Увеличение дохода для вас сейчас в приоритете №1, и вы готовы внедрять современные инструменты.</li>
+      <li>
+        Вы устали выкладываться от заката до рассвета, делать много лишних бесполезных действий. Переработки и холодные звонки вам
+        больше не подходят.
+        <strong>Вы хотите получить новую востребованную профессию</strong>
+        , чтобы совмещать с основной работой или уйти на фриланс.
+      </li>
+    </ol>
+
+    <form action="https://formsubmit.co/your@email.com" method="POST">
+      <input type="text" name="name" placeholder="Введите ваше имя и фамилию" required />
+      <input type="email" name="email" placeholder="Введите ваш эл. адрес" required />
+      <input type="tel" name="phone" placeholder="Введите ваш телефон" />
+
+      <label class="checkbox-label">
+        <input type="checkbox" name="personal_data" required />
+        Я даю согласие на сбор, обработку и хранение всех моих персональных данных в соответствии с
+        <a href="#">ПОЛОЖЕНИЕМ ОБ ОБРАБОТКЕ ПЕРСОНАЛЬНЫХ ДАННЫХ</a>
+      </label>
+
+      <label class="checkbox-label">
+        <input type="checkbox" name="offer_agree" required />
+        Согласен(-на) с условиями
+        <a href="#">Публичного договора-оферты</a>
+      </label>
+
+      <label class="checkbox-label">
+        <input type="checkbox" name="marketing_agree" />
+        Даю согласие на получение информационных и маркетинговых рассылок
+      </label>
+
+      <input type="text" name="social_nick" placeholder="Напишите ваш ник в запрещенной сети через @" required />
+      <input type="text" name="telegram" placeholder="Ваш ваш ник в телеграм" required />
+
+      <button type="submit">Отправить анкету</button>
+    </form>
+
+    <div id="thankYou" class="hidden thank-you">
+      <h2>Спасибо за отправку!</h2>
+      <p>Мы скоро свяжемся с вами.</p>
+    </div>
+
+    <script>
+      const form = document.getElementById('contactForm')
+      const formContainer = document.getElementById('form-container')
+      const thankYou = document.getElementById('thankYou')
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault()
+
+        // Проверяем обязательные чекбоксы
+        const checkboxes = form.querySelectorAll('input[type="checkbox"][required]')
+        let allChecked = true
+        checkboxes.forEach((cb) => {
+          if (!cb.checked) allChecked = false
+        })
+
+        if (!allChecked) {
+          alert('Пожалуйста, отметьте все обязательные согласия.')
+          return
+        }
+
+        const formData = new FormData(form)
+
+        fetch('https://formsubmit.co/ajax/your@email.com', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            formContainer.classList.add('hidden')
+            thankYou.classList.remove('hidden')
+          })
+          .catch((error) => {
+            alert('Произошла ошибка. Попробуйте позже.')
+            console.error(error)
+          })
+      })
+    </script>
+  </body>
+</html>
